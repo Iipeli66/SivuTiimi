@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SivuTiimi – Ammattimaiset nettisivut yrityksille</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500&display=swap" rel="stylesheet">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  p, h1, h2, h3, h4, li, label, div { text-wrap: balance; }
+  :root {
+    --c1: #FF3D5A;
+    --c2: #FF8C00;
+    --c3: #7B5CF5;
+    --c4: #00C9A7;
+    --dark: #0D0D0F;
+    --light: #F9F7F4;
+    --grad: linear-gradient(135deg, #FF3D5A, #FF8C00, #7B5CF5);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--dark);
+    color: var(--light);
+    overflow-x: hidden;
+    word-break: break-word;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(13,13,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.5rem;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  nav ul { list-style: none; display: flex; gap: 2.5rem; }
+  nav ul a { color: rgba(249,247,244,0.65); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+  nav ul a:hover { color: var(--light); }
+  .nav-cta {
+    background: var(--grad);
+    color: white !important;
+    padding: 0.55rem 1.4rem;
+    border-radius: 100px;
+    font-weight: 500 !important;
+    -webkit-text-fill-color: white !important;
+    transition: opacity 0.2s !important;
+  }
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 8rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 30%, rgba(123,92,245,0.18) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 15% 70%, rgba(255,61,90,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse 40% 40% at 85% 60%, rgba(255,140,0,0.10) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 0.45rem 1.1rem;
+    border-radius: 100px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: rgba(249,247,244,0.7);
+    margin-bottom: 2rem;
+    animation: fadeUp 0.7s ease both;
+  }
+  .badge-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--c4);
+    box-shadow: 0 0 6px var(--c4);
+    animation: pulse 2s ease infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+  .hero h1 .grad {
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    font-size: 1.2rem;
+    color: rgba(249,247,244,0.6);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+  .hero-btns {
+    display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+  .btn-primary {
+    background: var(--grad);
+    color: white;
+    padding: 0.85rem 2.2rem;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, opacity 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { transform: translateY(-2px); opacity: 0.9; }
+  .btn-secondary {
+    background: transparent;
+    color: var(--light);
+    padding: 0.85rem 2.2rem;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    display: inline-block;
+  }
+  .btn-secondary:hover { border-color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.05); }
+
+  /* FLOATING CARDS */
+  .hero-cards {
+    display: flex; gap: 1rem; margin-top: 4rem; flex-wrap: wrap; justify-content: center;
+    animation: fadeUp 0.7s 0.5s ease both;
+  }
+  .mini-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 1rem 1.4rem;
+    display: flex; align-items: center; gap: 0.7rem;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: rgba(249,247,244,0.8);
+  }
+  .mini-icon { font-size: 1.1rem; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTION */
+  section { padding: 6rem 2rem; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.1;
+    margin-bottom: 1.2rem;
+  }
+  .section-sub {
+    color: rgba(249,247,244,0.55);
+    font-size: 1.05rem;
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+  }
+
+  /* HOW IT WORKS */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  .step-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 2rem 1.6rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .step-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.2); }
+  .step-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 1.2rem;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0.3;
+  }
+  .step-card h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.15rem; margin-bottom: 0.6rem; }
+  .step-card p { font-size: 0.9rem; color: rgba(249,247,244,0.55); line-height: 1.6; }
+
+  /* PRICING */
+  #hinnat { background: rgba(255,255,255,0.02); }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .price-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 24px;
+    padding: 2.2rem 2rem;
+    transition: transform 0.3s;
+  }
+  .price-card:hover { transform: translateY(-4px); }
+  .price-card.featured {
+    background: rgba(123,92,245,0.12);
+    border-color: rgba(123,92,245,0.4);
+    position: relative;
+  }
+  .featured-badge {
+    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+    background: var(--grad);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.3rem 1rem;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+  .price-name { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .price-amount {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+  .price-amount span { font-size: 1rem; font-weight: 400; color: rgba(249,247,244,0.5); }
+  .price-sub { font-size: 0.82rem; color: rgba(249,247,244,0.45); margin-bottom: 1.8rem; }
+  .price-features { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 2rem; }
+  .price-features li { font-size: 0.9rem; color: rgba(249,247,244,0.7); display: flex; align-items: center; gap: 0.6rem; }
+  .check { width: 18px; height: 18px; border-radius: 50%; background: var(--grad); display: inline-flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; color: white; }
+  .price-btn {
+    width: 100%;
+    padding: 0.85rem;
+    border-radius: 100px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: transparent;
+    color: var(--light);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .price-btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.4); }
+  .price-btn.grad-btn {
+    background: var(--grad);
+    border: none;
+    color: white;
+  }
+  .price-btn.grad-btn:hover { opacity: 0.85; }
+
+  /* CTA SECTION */
+  .cta-section {
+    text-align: center;
+    padding: 7rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(123,92,245,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-section h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 800;
+    margin-bottom: 1.2rem;
+    line-height: 1.1;
+  }
+  .cta-section p { color: rgba(249,247,244,0.55); font-size: 1.1rem; margin-bottom: 2.5rem; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 2.5rem 4rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  footer .logo { font-size: 1.2rem; }
+  footer p { font-size: 0.85rem; color: rgba(249,247,244,0.35); }
+  footer a { color: rgba(249,247,244,0.45); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+  footer a:hover { color: var(--light); }
+
+  /* HAMBURGER */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--light);
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 60px; left: 0; right: 0;
+    background: rgba(13,13,15,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 1.5rem 2rem;
+    flex-direction: column;
+    gap: 1.2rem;
+    z-index: 99;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    color: rgba(249,247,244,0.7);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .mobile-menu a:last-child { border-bottom: none; }
+
+  @media(max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    nav ul { display: none; }
+    .hamburger { display: flex; }
+    footer { padding: 2rem 1.5rem; flex-direction: column; text-align: center; }
+    .hero { padding: 7rem 1.5rem 3rem; }
+    .hero h1 { font-size: 2rem; }
+    .section-title { font-size: 1.6rem; }
+    .cta-section h2 { font-size: 1.5rem; }
+    .mini-card { white-space: nowrap; font-size: 0.75rem; padding: 0.6rem 0.9rem; }
+    .hero p { font-size: 1rem; }
+    .hero-cards { gap: 0.6rem; }
+    .mini-card { font-size: 0.8rem; padding: 0.7rem 1rem; }
+    section { padding: 4rem 1.5rem; }
+    .steps { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr !important; max-width: 100% !important; }
+    .cta-section { padding: 4rem 1.5rem; }
+    .modal { padding: 1.5rem 1.2rem; border-radius: 16px; margin: 0.5rem auto; }
+    .modal h3 { font-size: 1.2rem; padding-right: 2.5rem; }
+    .form-row { grid-template-columns: 1fr; }
+    .modal-close { top: 1rem; right: 1rem; }
+    #meista .container > div { grid-template-columns: 1fr !important; gap: 2rem !important; }
+  }
+
+  @media(min-width: 769px) and (max-width: 1024px) {
+    nav { padding: 1rem 2rem; }
+    .hero h1 { font-size: 3.5rem; }
+    section { padding: 5rem 2rem; }
+    .steps { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media(min-width: 1400px) {
+    .container { max-width: 1200px; }
+    nav { padding: 1.2rem 6rem; }
+    .hero h1 { font-size: 6rem; }
+    .hero p { font-size: 1.3rem; max-width: 640px; }
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 999;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(6px);
+    align-items: flex-start;
+    justify-content: center;
+    padding: 1rem;
+    overflow-y: auto;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: #18181b;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 24px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 520px;
+    position: relative;
+    animation: fadeUp 0.3s ease;
+    margin: auto;
+  }
+  .modal h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 0.4rem;
+  }
+  .modal p { font-size: 0.9rem; color: rgba(249,247,244,0.5); margin-bottom: 1.8rem; }
+  .modal-close {
+    position: absolute; top: 1.2rem; right: 1.4rem;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: var(--light);
+    font-size: 1.1rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.2); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+  .form-group label { font-size: 0.82rem; font-weight: 500; color: rgba(249,247,244,0.6); }
+  .form-group input, .form-group select, .form-group textarea {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 0.7rem 1rem;
+    color: var(--light);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: rgba(123,92,245,0.6);
+  }
+  .form-group select option { background: #18181b; }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+  .form-submit {
+    width: 100%;
+    padding: 0.9rem;
+    border-radius: 100px;
+    border: none;
+    background: var(--grad);
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    margin-top: 0.5rem;
+  }
+  .form-submit:hover { opacity: 0.85; }
+  .form-success {
+    text-align: center;
+    padding: 2rem 0;
+    display: none;
+  }
+  .form-success .success-icon {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--grad);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+    margin: 0 auto 1rem;
+  }
+  .form-success h4 { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 800; margin-bottom: 0.5rem; }
+  .form-success p { color: rgba(249,247,244,0.5); font-size: 0.9rem; }
+  @media(max-width: 560px) { .form-row { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="sivutiimi.html" class="logo" style="text-decoration:none;">SivuTiimi</a>
+  <ul>
+    <li><a href="#miten">Miten toimii</a></li>
+    <li><a href="meista.html">Meistä</a></li>
+    <li><a href="#hinnat">Hinnat</a></li>
+    <li><a href="#yhteystiedot" class="nav-cta">Ota yhteyttä</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMenu()" id="hamburger">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#miten" onclick="toggleMenu()">Miten toimii</a>
+  <a href="meista.html" onclick="toggleMenu()">Meistä</a>
+  <a href="#hinnat" onclick="toggleMenu()">Hinnat</a>
+  <a href="#yhteystiedot" onclick="toggleMenu()">Ota yhteyttä</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">
+    <span class="badge-dot"></span>
+    Nettisivut, joista olet ylpeä
+  </div>
+  <h1>Nettisivut, jotka <span class="grad">tekevät vaikutuksen</span></h1>
+  <p>Modernit nettisivut helposti ja vaivattomasti — me hoidamme kaiken.</p>
+  <div class="hero-btns">
+    <a href="#yhteystiedot" class="btn-primary">Pyydä tarjous</a>
+    <a href="#miten" class="btn-secondary">Katso miten toimii</a>
+  </div>
+  <div class="hero-cards">
+    <div class="mini-card"><span class="mini-icon">⚡</span> Nopea toteutus</div>
+    <div class="mini-card"><span class="mini-icon">📱</span> Mobiiliystävällinen</div>
+    <div class="mini-card"><span class="mini-icon">🔒</span> Turvallinen & luotettava</div>
+    <div class="mini-card"><span class="mini-icon">🎨</span> Yksilöllinen design</div>
+  </div>
+</div>
+
+<!-- HISSIPUHE -->
+<section style="padding: 5rem 2rem; border-bottom: 1px solid rgba(255,255,255,0.06);">
+  <div class="container">
+    <div style="max-width: 780px; margin: 0 auto; text-align: center;">
+      <div class="section-label">Miksi nettisivut?</div>
+      <h2 class="section-title">Ensivaikutelma ratkaisee — aina</h2>
+      <p style="color: rgba(249,247,244,0.6); font-size: 1rem; line-height: 1.9; margin-bottom: 1.4rem; text-wrap: balance;">
+        Nettisivut ovat usein <strong style="color: var(--light); font-weight: 500;">ensimmäinen asia</strong> jonka asiakas näkee yrityksestäsi. Nykyään ihmiset googlaavat ennen kuin ottavat yhteyttä — ja se ensivaikutelma syntyy sekunneissa.
+      </p>
+      <p style="color: rgba(249,247,244,0.6); font-size: 1rem; line-height: 1.9; margin-bottom: 1.4rem; text-wrap: balance;">
+        Laadukkaat nettisivut kertovat asiakkaalle että olet ammattilainen ja luottamuksen arvoinen. <strong style="color: var(--light); font-weight: 500;">Hyvät sivut myyvät puolestasi</strong> — kellon ympäri, myös silloin kun et itse ole paikalla.
+      </p>
+      <p style="color: rgba(249,247,244,0.6); font-size: 1rem; line-height: 1.9; text-wrap: balance;">
+        SivuTiimi tekee sinulle sivut jotka vastaavat yrityksesi tasoa — ja hoitaa kaiken niin että sinä voit keskittyä siihen missä olet parhaimmillasi.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="miten">
+  <div class="container">
+    <div class="section-label">Prosessi</div>
+    <h2 class="section-title">Näin homma toimii</h2>
+    <p class="section-sub">Yksinkertainen prosessi alusta loppuun — ilman teknistä sähellystä tai ylimääräistä stressiä.</p>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <h3>Ota yhteyttä</h3>
+        <p>Kerrot tarpeistasi ja toiveistasi. Teemme yhdessä suunnitelman — ilman sitoutumista.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <h3>Me hoidamme kaiken</h3>
+        <p>Hankimme domainin ja hostingin puolestasi. Sinun ei tarvitse tietää teknisistä asioista mitään.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <h3>Sivut valmiiksi</h3>
+        <p>Rakennamme modernit ja hienot nettisivut toiveidesi mukaan. Maksat vain kerran toteutuksesta.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">04</div>
+        <h3>Yksi kuukausimaksu</h3>
+        <p>Domain, hosting ja ylläpito sisältyvät yhteen selkeään kuukausimaksuun. Ei yllätyksiä.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="hinnat">
+  <div class="container">
+    <div class="section-label">Hinnoittelu</div>
+    <h2 class="section-title">Selkeät hinnat, ei yllätyksiä</h2>
+    <p class="section-sub">Kuukausimaksu sisältää kaiken — domain, hosting ja ylläpito. Ei piilomaksuja, ei teknistä sähellystä.</p>
+    <div class="pricing-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); max-width: 780px; margin: 0 auto;">
+      <div class="price-card">
+        <div class="price-name">Aloita</div>
+        <div style="font-size: 0.88rem; color: rgba(249,247,244,0.5); margin-bottom: 1.2rem; line-height: 1.5;">Sopii yrittäjälle joka haluaa ammattimaiset nettisivut nopeasti ja helposti. Kaikki oleellinen — ei enempää, ei vähempää.</div>
+        <div class="price-amount">479 <span>€</span></div>
+        <div class="price-sub">+ 31 €/kk — domain, hosting & ylläpito sisältyy</div>
+        <ul class="price-features">
+          <li><span class="check">✓</span> Esittelysivusto (1–4 sivua)</li>
+          <li><span class="check">✓</span> Räätälöity sinun yrityksellesi</li>
+          <li><span class="check">✓</span> Mobiiliystävällinen</li>
+          <li><span class="check">✓</span> Yhteystieto-lomake</li>
+          <li><span class="check">✓</span> SSL-suojaus (https)</li>
+          <li><span class="check">✓</span> Kuukausittaiset päivitykset (kuvat, tekstit, hinnat, aukioloajat...)</li>
+          <li><span class="check">✓</span> Domain + hosting sisältyy kk-maksuun</li>
+        </ul>
+        <button class="price-btn" onclick="openModal('Aloita')">Pyydä tarjous</button>
+      </div>
+      <div class="price-card featured">
+        <div class="featured-badge">Suosituin</div>
+        <div class="price-name">Erotu</div>
+        <div style="font-size: 0.88rem; color: rgba(249,247,244,0.5); margin-bottom: 1.2rem; line-height: 1.5;">Sopii yritykselle joka haluaa erottua kilpailijoista. Täysin räätälöity kokonaisuus paremmalla näkyvyydellä ja jatkuvalla tuella.</div>
+        <div class="price-amount">799 <span>€</span></div>
+        <div class="price-sub">+ 47 €/kk — domain, hosting & ylläpito sisältyy</div>
+        <ul class="price-features">
+          <li><span class="check">✓</span> Täysin räätälöity design</li>
+          <li><span class="check">✓</span> Mobiiliystävällinen</li>
+          <li><span class="check">✓</span> Useampi sivu tarpeen mukaan</li>
+          <li><span class="check">✓</span> Hakukoneoptimointi (SEO)</li>
+          <li><span class="check">✓</span> Google Analytics -seuranta</li>
+          <li><span class="check">✓</span> Kuukausittaiset päivitykset (kuvat, tekstit, hinnat, aukioloajat...)</li>
+          <li><span class="check">✓</span> Domain + hosting sisältyy kk-maksuun</li>
+        </ul>
+        <button class="price-btn grad-btn" onclick="openModal('Erotu')">Pyydä tarjous</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MEISTÄ poistettu täältä — katso meista.html -->
+
+<!-- CTA -->
+<div class="cta-section" id="yhteystiedot">
+  <div class="container" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+    <h2>Valmiina aloittamaan?</h2>
+    <p>Ota yhteyttä niin tehdään sinulle sopiva ratkaisu.</p>
+    <button onclick="openModal()" class="btn-primary" style="font-size:1.1rem; padding: 1rem 2.8rem; border: none; cursor: pointer;">Pyydä tarjous</button>
+    <p style="margin-top:1.5rem; font-size: 0.9rem; color: rgba(249,247,244,0.35);">hei@sivutiimi.fi</p>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3>Pyydä tarjous</h3>
+    <p>Täytä lomake niin otamme yhteyttä mahdollisimman pian.</p>
+    <div id="form-content">
+      <form action="https://formspree.io/f/mgodanjw" method="POST" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nimi *</label>
+            <input type="text" name="nimi" placeholder="Matti Meikäläinen" required>
+          </div>
+          <div class="form-group">
+            <label>Yritys</label>
+            <input type="text" name="yritys" placeholder="Yritys Oy">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Sähköposti *</label>
+            <input type="email" name="email" placeholder="matti@yritys.fi" required>
+          </div>
+          <div class="form-group">
+            <label>Puhelinnumero</label>
+            <input type="tel" name="puhelin" placeholder="+358 40 123 4567">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Mikä paketti kiinnostaa?</label>
+          <select name="paketti">
+            <option value="">Valitse paketti...</option>
+            <option value="Aloita (479€ + 31€/kk)">Aloita — 479€ + 31€/kk</option>
+            <option value="Erotu (799€ + 47€/kk)">Erotu — 799€ + 47€/kk</option>
+            <option value="En ole varma">En ole vielä varma</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Kerro tarpeistasi</label>
+          <textarea name="viesti" placeholder="Mitä haluaisit sivuillesi? Toimiala, toiveet, aikataulu..."></textarea>
+        </div>
+        <button type="submit" class="form-submit">Lähetä tarjouspyyntö →</button>
+      </form>
+    </div>
+    <div class="form-success" id="form-success">
+      <div class="success-icon">✓</div>
+      <h4>Viesti lähetetty!</h4>
+      <p>Kiitos yhteydenotosta! Palaamme asiaan mahdollisimman pian.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">SivuTiimi</div>
+  <p>© 2025 SivuTiimi. Kaikki oikeudet pidätetään.</p>
+  <a href="mailto:hei@sivutiimi.fi">hei@sivutiimi.fi</a>
+</footer>
+
+<script>
+  function toggleMenu() {
+    const menu = document.getElementById('mobile-menu');
+    menu.classList.toggle('open');
+  }
+  function openModal(paketti) {
+    const overlay = document.getElementById('modal');
+    overlay.classList.add('open');
+    overlay.scrollTop = 0;
+    document.body.style.overflow = 'hidden';
+    if (paketti) {
+      const select = document.querySelector('select[name="paketti"]');
+      if (select) {
+        for (let opt of select.options) {
+          if (opt.value.startsWith(paketti)) { select.value = opt.value; break; }
+        }
+      }
+    }
+  }
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+    document.body.style.overflow = '';
+    document.getElementById('form-content').style.display = 'block';
+    document.getElementById('form-success').style.display = 'none';
+  }
+  document.getElementById('modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+    const btn = form.querySelector('.form-submit');
+    btn.textContent = 'Lähetetään...';
+    btn.disabled = true;
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        document.getElementById('form-content').style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
+      } else {
+        btn.textContent = 'Virhe — yritä uudelleen';
+        btn.disabled = false;
+      }
+    } catch {
+      btn.textContent = 'Virhe — yritä uudelleen';
+      btn.disabled = false;
+    }
+  }
+</script>
+<!-- CHATBOT -->
+<style>
+  .chat-btn {
+    position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 200;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--grad); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; box-shadow: 0 4px 20px rgba(123,92,245,0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .chat-btn:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(123,92,245,0.5); }
+
+  .chat-window {
+    position: fixed; bottom: 5rem; right: 1.5rem; z-index: 200;
+    width: 340px; max-height: 500px;
+    background: #18181b;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    display: none; flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    animation: fadeUp 0.2s ease;
+  }
+  .chat-window.open { display: flex; }
+
+  .chat-header {
+    padding: 1rem 1.2rem;
+    background: rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; gap: 0.7rem;
+  }
+  .chat-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--grad);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; flex-shrink: 0;
+  }
+  .chat-header-info { flex: 1; }
+  .chat-header-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; }
+  .chat-header-status { font-size: 0.75rem; color: var(--c4); display: flex; align-items: center; gap: 0.3rem; }
+  .chat-header-status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--c4); display: inline-block; }
+  .chat-close { background: none; border: none; color: rgba(249,247,244,0.4); cursor: pointer; font-size: 1.1rem; padding: 0.2rem; transition: color 0.2s; }
+  .chat-close:hover { color: var(--light); }
+
+  .chat-messages {
+    flex: 1; overflow-y: auto; padding: 1rem;
+    display: flex; flex-direction: column; gap: 0.8rem;
+    max-height: 320px;
+  }
+  .chat-messages::-webkit-scrollbar { width: 4px; }
+  .chat-messages::-webkit-scrollbar-track { background: transparent; }
+  .chat-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+  .msg { display: flex; gap: 0.5rem; align-items: flex-end; }
+  .msg.user { flex-direction: row-reverse; }
+  .msg-bubble {
+    max-width: 80%; padding: 0.6rem 0.9rem;
+    border-radius: 14px; font-size: 0.88rem; line-height: 1.5;
+  }
+  .msg.bot .msg-bubble {
+    background: rgba(255,255,255,0.07);
+    color: var(--light);
+    border-bottom-left-radius: 4px;
+  }
+  .msg.user .msg-bubble {
+    background: var(--grad);
+    color: white;
+    border-bottom-right-radius: 4px;
+  }
+  .msg-avatar {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--grad); display: flex; align-items: center;
+    justify-content: center; font-size: 0.7rem; flex-shrink: 0;
+  }
+  .typing { display: flex; gap: 4px; align-items: center; padding: 0.6rem 0.9rem; }
+  .typing span { width: 6px; height: 6px; border-radius: 50%; background: rgba(249,247,244,0.4); animation: bounce 1.2s ease infinite; }
+  .typing span:nth-child(2) { animation-delay: 0.2s; }
+  .typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
+
+  .chat-input-row {
+    padding: 0.8rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex; gap: 0.5rem;
+  }
+  .chat-input {
+    flex: 1; background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 100px; padding: 0.55rem 1rem;
+    color: var(--light); font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem; outline: none;
+    transition: border-color 0.2s;
+  }
+  .chat-input:focus { border-color: rgba(123,92,245,0.5); }
+  .chat-send {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--grad); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; transition: opacity 0.2s; flex-shrink: 0;
+  }
+  .chat-send:hover { opacity: 0.85; }
+  .chat-send:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  @media(max-width: 768px) {
+    .chat-window { width: calc(100vw - 3rem); right: 1.5rem; }
+  }
+</style>
+
+<button class="chat-btn" onclick="toggleChat()" id="chat-btn">💬</button>
+
+<div class="chat-window" id="chat-window">
+  <div class="chat-header">
+    <div class="chat-avatar">🤖</div>
+    <div class="chat-header-info">
+      <div class="chat-header-name">SivuTiimi Assistentti</div>
+      <div class="chat-header-status">Online</div>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-messages" id="chat-messages">
+    <div class="msg bot">
+      <div class="msg-avatar">🤖</div>
+      <div class="msg-bubble">Hei! 👋 Olen SivuTiimin assistentti. Voin kertoa palveluistamme, hinnoista tai auttaa sinua pääsemään alkuun. Miten voin auttaa?</div>
+    </div>
+  </div>
+  <div class="chat-input-row">
+    <input class="chat-input" id="chat-input" type="text" placeholder="Kirjoita viesti..." onkeydown="if(event.key==='Enter') sendMessage()">
+    <button class="chat-send" id="chat-send" onclick="sendMessage()">➤</button>
+  </div>
+</div>
+
+<script>
+  const SYSTEM_PROMPT = `Olet SivuTiimin ystävällinen ja asiantunteva asiakaspalveluassistentti. Vastaat suomeksi, rennosti mutta asiallisesti. Pidä vastaukset lyhyinä ja selkeinä.
+
+SivuTiimi on nettisivuyritys joka rakentaa ammattimaiset nettisivut yrityksille. Iiro hoitaa kaiken — domain, hosting, design ja ylläpito. Asiakas ei tarvitse teknistä osaamista.
+
+PAKETIT:
+- Aloita: 479€ kertamaksu + 31€/kk (domain, hosting, muokkaukset sisältyy)
+- Erotu: 799€ kertamaksu + 47€/kk (sama + SEO, Google Analytics, laajempi sivusto)
+
+TÄRKEÄÄ:
+- Kuukausimaksu sisältää kaiken: domain, hosting ja kuukausittaiset päivitykset
+- Toimitusaika noin 1 viikko
+- Ei piilomaksuja
+- Sähköposti: hei@sivutiimi.fi
+
+Jos asiakas haluaa tarjouksen tai on valmis aloittamaan, kehota heitä täyttämään tarjouslomake sanomalla: "Paina 'Pyydä tarjous' -nappia niin pääset lomakkeelle!"`;
+
+  let chatHistory = [];
+  let chatOpen = false;
+
+  function toggleChat() {
+    chatOpen = !chatOpen;
+    const win = document.getElementById('chat-window');
+    const btn = document.getElementById('chat-btn');
+    win.classList.toggle('open', chatOpen);
+    btn.textContent = chatOpen ? '✕' : '💬';
+    if (chatOpen) document.getElementById('chat-input').focus();
+  }
+
+  async function sendMessage() {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if (!text) return;
+
+    input.value = '';
+    document.getElementById('chat-send').disabled = true;
+
+    addMessage('user', text);
+    chatHistory.push({ role: 'user', content: text });
+
+    const typingId = addTyping();
+
+    try {
+      const res = await fetch('/.netlify/functions/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: chatHistory })
+      });
+
+      const data = await res.json();
+      const reply = data.content?.[0]?.text || 'Pahoittelen, jokin meni pieleen. Kokeile uudelleen!';
+
+      removeTyping(typingId);
+      addMessage('bot', reply);
+      chatHistory.push({ role: 'assistant', content: reply });
+    } catch {
+      removeTyping(typingId);
+      addMessage('bot', 'Pahoittelen, jokin meni pieleen. Kokeile uudelleen tai ota yhteyttä hei@sivutiimi.fi');
+    }
+
+    document.getElementById('chat-send').disabled = false;
+    input.focus();
+  }
+
+  function addMessage(role, text) {
+    const msgs = document.getElementById('chat-messages');
+    const div = document.createElement('div');
+    div.className = `msg ${role}`;
+    div.innerHTML = role === 'bot'
+      ? `<div class="msg-avatar">🤖</div><div class="msg-bubble">${text}</div>`
+      : `<div class="msg-bubble">${text}</div>`;
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function addTyping() {
+    const msgs = document.getElementById('chat-messages');
+    const id = 'typing-' + Date.now();
+    const div = document.createElement('div');
+    div.className = 'msg bot'; div.id = id;
+    div.innerHTML = `<div class="msg-avatar">🤖</div><div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+    return id;
+  }
+
+  function removeTyping(id) {
+    document.getElementById(id)?.remove();
+  }
+</script>
+</body>
+</html>
