@@ -4,7 +4,7 @@ exports.handler = async function(event) {
   }
  
   try {
-    const apiKey = process.env.ANTHROPIC_API_KEY;
+    const apiKey = process.env.ANTHROPIC_API_KEY || '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';
     
     if (!apiKey) {
       return { statusCode: 500, body: JSON.stringify({ error: 'API key puuttuu' }) };
@@ -42,6 +42,15 @@ Jos asiakas haluaa tarjouksen tai on valmis aloittamaan, kehota heitä täyttäm
     });
  
     const data = await response.json();
+    
+    if (data.error) {
+      return {
+        statusCode: 200,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: [{ text: 'Virhe: ' + JSON.stringify(data.error) }] })
+      };
+    }
+    
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json' },
