@@ -43,14 +43,6 @@ Jos asiakas haluaa tarjouksen tai on valmis aloittamaan, kehota heitä täyttäm
  
     const data = await response.json();
     
-    if (data.error) {
-      return {
-        statusCode: 200,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: [{ text: 'Virhe: ' + JSON.stringify(data.error) }] })
-      };
-    }
-    
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json' },
@@ -64,4 +56,3 @@ Jos asiakas haluaa tarjouksen tai on valmis aloittamaan, kehota heitä täyttäm
     };
   }
 };
- 
