@@ -4,7 +4,7 @@ exports.handler = async function(event) {
   }
  
   try {
-    const apiKey = process.env.ANTHROPIC_API_KEY || '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';
+    const apiKey = process.env.ANTHROPIC_API_KEY;
     
     if (!apiKey) {
       return { statusCode: 500, body: JSON.stringify({ error: 'API key puuttuu' }) };
@@ -64,3 +64,4 @@ Jos asiakas haluaa tarjouksen tai on valmis aloittamaan, kehota heitä täyttäm
     };
   }
 };
+ 
