@@ -46,7 +46,7 @@ exports.handler = async function(event) {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            from: 'onboarding@resend.dev',
+            from: 'SivuTiimi <hei@sivutiimi.fi>',
             to: 'hei@sivutiimi.fi',
             subject: `Uusi ajanvaraus — ${data.paivamaara} klo ${data.kellonaika}`,
             html: `
@@ -69,7 +69,7 @@ exports.handler = async function(event) {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            from: 'onboarding@resend.dev',
+            from: 'SivuTiimi <hei@sivutiimi.fi>',
             to: data.email,
             subject: `Varauksesi vahvistettu — ${data.paivamaara} klo ${data.kellonaika}`,
             html: `
