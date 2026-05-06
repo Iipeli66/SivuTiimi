@@ -241,7 +241,6 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    opacity: 0.3;
   }
   .step-card h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.15rem; margin-bottom: 0.6rem; }
   .step-card p { font-size: 0.9rem; color: rgba(249,247,244,0.55); line-height: 1.6; }
@@ -254,16 +253,19 @@
     gap: 1.5rem;
   }
   .price-card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(123,92,245,0.12);
+    border: 1px solid rgba(123,92,245,0.2);
     border-radius: 24px;
     padding: 2.2rem 2rem;
     transition: transform 0.3s;
   }
   .price-card:hover { transform: translateY(-4px); }
   .price-card.featured {
-    background: rgba(255,255,255,0.04);
-    border-color: rgba(123,92,245,0.5);
+    background: rgba(123,92,245,0.12);
+    border: 2px solid transparent;
+    background-image: linear-gradient(rgba(20,15,40,0.95), rgba(20,15,40,0.95)), var(--grad);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
     position: relative;
   }
   .featured-badge {
@@ -293,20 +295,22 @@
     width: 100%;
     padding: 0.85rem;
     border-radius: 100px;
-    border: 1px solid rgba(255,255,255,0.2);
-    background: transparent;
-    color: var(--light);
+    border: none;
+    background: var(--grad);
+    color: white;
     font-family: 'DM Sans', sans-serif;
     font-size: 0.95rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
+    opacity: 0.9;
   }
-  .price-btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.4); }
+  .price-btn:hover { opacity: 1; transform: translateY(-1px); }
   .price-btn.grad-btn {
     background: var(--grad);
     border: none;
     color: white;
+    opacity: 1;
   }
   .price-btn.grad-btn:hover { opacity: 0.85; }
 
