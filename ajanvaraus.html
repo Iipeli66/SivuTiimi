@@ -181,6 +181,15 @@
     <h3>Yhteystiedot</h3>
     <div class="selected-info" id="selected-info"></div>
     <div id="form-content">
+      <div class="form-group">
+        <label>Valitse palvelu *</label>
+        <select id="f-palvelu" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 0.8rem 1rem; color: var(--light); font-family: 'DM Sans', sans-serif; font-size: 0.9rem; outline: none; width: 100%;">
+          <option value="">Valitse palvelu...</option>
+          <option value="Konsultaatio — nettisivuista (ilmainen)">Konsultaatio — nettisivuista (ilmainen)</option>
+          <option value="Aloita-paketti — 479€ + 31€/kk">Aloita-paketti — 479€ + 31€/kk</option>
+          <option value="Erotu-paketti — 799€ + 47€/kk">Erotu-paketti — 799€ + 47€/kk</option>
+        </select>
+      </div>
       <div class="form-row">
         <div class="form-group">
           <label>Nimi *</label>
@@ -344,8 +353,10 @@
     const email = document.getElementById('f-email').value.trim();
     const puhelin = document.getElementById('f-puhelin').value.trim();
     const yritys = document.getElementById('f-yritys').value.trim();
+    const palvelu = document.getElementById('f-palvelu').value;
 
     if (!nimi || !email) { alert('Täytä nimi ja sähköposti!'); return; }
+    if (!palvelu) { alert('Valitse palvelu!'); return; }
     if (!selectedDate || !selectedTime) { alert('Valitse päivä ja aika!'); return; }
 
     const btn = document.getElementById('btn-submit');
@@ -355,7 +366,7 @@
       const res = await fetch('/.netlify/functions/varaukset', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'insert', data: { nimi, email, puhelin, yritys, paivamaara: selectedDate, kellonaika: selectedTime } })
+        body: JSON.stringify({ action: 'insert', data: { nimi, email, puhelin, yritys, palvelu, paivamaara: selectedDate, kellonaika: selectedTime } })
       });
 
       const result = await res.json();
