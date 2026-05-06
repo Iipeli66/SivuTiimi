@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Ota yhteyttä – SivuTiimi</title>
+<meta name="description" content="Ota yhteyttä SivuTiimiin ja pyydä tarjous nettisivuista. Vastaamme saman päivän aikana!">
+<meta property="og:title" content="Ota yhteyttä – SivuTiimi">
+<meta property="og:description" content="Pyydä tarjous ammattimaisista nettisivuista. Vastaamme saman päivän aikana!">
+<meta property="og:url" content="https://sivutiimi.fi/yhteystiedot.html">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://sivutiimi.fi/yhteystiedot.html">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -236,7 +242,7 @@
             </div>
             <div class="form-group">
               <label>Yritys</label>
-              <input type="text" name="yritys" placeholder="Yritys Oy">
+              <input type="text" name="yritys" placeholder="Yritys Oy" required>
             </div>
           </div>
           <div class="form-row">
@@ -246,12 +252,12 @@
             </div>
             <div class="form-group">
               <label>Puhelinnumero</label>
-              <input type="tel" name="puhelin" placeholder="+358 40 123 4567">
+              <input type="tel" name="puhelin" placeholder="+358 40 123 4567" required>
             </div>
           </div>
           <div class="form-group">
             <label>Viesti</label>
-            <textarea name="viesti" placeholder="Kerro tarpeistasi — toimiala, toiveet, aikataulu..."></textarea>
+            <textarea name="viesti" required placeholder="Kerro tarpeistasi — toimiala, toiveet, aikataulu..."></textarea>
           </div>
           <button type="submit" class="form-submit">Lähetä viesti →</button>
         </form>
