@@ -52,6 +52,7 @@ exports.handler = async function(event) {
             html: `
               <h2>Uusi ajanvaraus!</h2>
               <p><strong>Päivä:</strong> ${data.paivamaara} klo ${data.kellonaika}</p>
+              <p><strong>Palvelu:</strong> ${data.palvelu || '—'}</p>
               <p><strong>Nimi:</strong> ${data.nimi}</p>
               <p><strong>Sähköposti:</strong> ${data.email}</p>
               <p><strong>Puhelin:</strong> ${data.puhelin || '—'}</p>
