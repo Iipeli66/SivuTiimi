@@ -351,22 +351,30 @@
     const btn = document.getElementById('btn-submit');
     btn.textContent = 'Vahvistetaan...'; btn.disabled = true;
 
-    const res = await fetch('/.netlify/functions/varaukset', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'insert', data: { nimi, email, puhelin, paivamaara: selectedDate, kellonaika: selectedTime } })
-    });
+    try {
+      const res = await fetch('/.netlify/functions/varaukset', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'insert', data: { nimi, email, puhelin, paivamaara: selectedDate, kellonaika: selectedTime } })
+      });
 
-    if (res.ok) {
-      const [y, m, d] = selectedDate.split('-');
-      const label = new Date(y, m-1, d).toLocaleDateString('fi-FI', { weekday: 'long', day: 'numeric', month: 'long' });
-      document.getElementById('form-content').style.display = 'none';
-      document.getElementById('success-box').style.display = 'block';
-      document.getElementById('success-text').textContent = `${nimi}, varauksesi ${label} klo ${selectedTime} on vahvistettu. Otamme sinuun yhteyttä pian!`;
-      bookingsCache[selectedDate] = [...(bookingsCache[selectedDate] || []), selectedTime];
-      renderCalendar();
-    } else {
-      btn.textContent = 'Virhe — yritä uudelleen'; btn.disabled = false;
+      const result = await res.json();
+
+      if (result.ok) {
+        const [y, m, d] = selectedDate.split('-');
+        const label = new Date(y, m-1, d).toLocaleDateString('fi-FI', { weekday: 'long', day: 'numeric', month: 'long' });
+        document.getElementById('form-content').style.display = 'none';
+        document.getElementById('success-box').style.display = 'block';
+        document.getElementById('success-text').textContent = `${nimi}, varauksesi ${label} klo ${selectedTime} on vahvistettu. Otamme sinuun yhteyttä pian!`;
+        bookingsCache[selectedDate] = [...(bookingsCache[selectedDate] || []), selectedTime];
+        renderCalendar();
+      } else {
+        btn.textContent = 'Virhe: ' + (result.error || 'yritä uudelleen');
+        btn.disabled = false;
+      }
+    } catch(e) {
+      btn.textContent = 'Virhe — yritä uudelleen';
+      btn.disabled = false;
     }
   }
 
