@@ -355,7 +355,7 @@
       const res = await fetch('/.netlify/functions/varaukset', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'insert', data: { nimi, email, puhelin, paivamaara: selectedDate, kellonaika: selectedTime } })
+        body: JSON.stringify({ action: 'insert', data: { nimi, email, puhelin, yritys, paivamaara: selectedDate, kellonaika: selectedTime } })
       });
 
       const result = await res.json();
