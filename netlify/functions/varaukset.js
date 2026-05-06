@@ -38,7 +38,7 @@ exports.handler = async function(event) {
       });
 
       if (res.ok) {
-        // Lähetä sähköposti-ilmoitus
+        // Ilmoitus sinulle
         await fetch('https://api.resend.com/emails', {
           method: 'POST',
           headers: {
@@ -57,6 +57,30 @@ exports.handler = async function(event) {
               <p><strong>Sähköposti:</strong> ${data.email}</p>
               <p><strong>Puhelin:</strong> ${data.puhelin || '—'}</p>
               <p><strong>Yritys:</strong> ${data.yritys || '—'}</p>
+            `
+          })
+        });
+
+        // Vahvistus asiakkaalle
+        await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${RESEND_KEY}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            from: 'onboarding@resend.dev',
+            to: data.email,
+            subject: `Varauksesi vahvistettu — ${data.paivamaara} klo ${data.kellonaika}`,
+            html: `
+              <h2>Hei ${data.nimi}!</h2>
+              <p>Varauksesi on vahvistettu. Tässä yhteenveto:</p>
+              <p><strong>Päivä:</strong> ${data.paivamaara} klo ${data.kellonaika}</p>
+              <p><strong>Palvelu:</strong> ${data.palvelu || '—'}</p>
+              <br>
+              <p>Otamme sinuun yhteyttä ennen tapaamista. Jos sinulla on kysyttävää, vastaa tähän sähköpostiin tai soita 040 192 8101.</p>
+              <br>
+              <p>Nähdään pian!<br><strong>SivuTiimi</strong></p>
             `
           })
         });
