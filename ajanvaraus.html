@@ -229,18 +229,24 @@
   let bookingsCache = {};
 
   async function fetchBookings(year, month) {
-    const from = `${year}-${String(month+1).padStart(2,'0')}-01`;
-    const to = `${year}-${String(month+1).padStart(2,'0')}-31`;
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/varaukset?paivamaara=gte.${from}&paivamaara=lte.${to}&select=paivamaara,kellonaika`, {
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
-    });
-    const data = await res.json();
-    const cache = {};
-    data.forEach(b => {
-      if (!cache[b.paivamaara]) cache[b.paivamaara] = [];
-      cache[b.paivamaara].push(b.kellonaika);
-    });
-    return cache;
+    try {
+      const from = `${year}-${String(month+1).padStart(2,'0')}-01`;
+      const to = `${year}-${String(month+1).padStart(2,'0')}-31`;
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/varaukset?paivamaara=gte.${from}&paivamaara=lte.${to}&select=paivamaara,kellonaika`, {
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+      });
+      if (!res.ok) { console.error('Supabase error:', res.status); return {}; }
+      const data = await res.json();
+      const cache = {};
+      data.forEach(b => {
+        if (!cache[b.paivamaara]) cache[b.paivamaara] = [];
+        cache[b.paivamaara].push(b.kellonaika);
+      });
+      return cache;
+    } catch(e) {
+      console.error('Fetch error:', e);
+      return {};
+    }
   }
 
   async function renderCalendar() {
@@ -249,8 +255,17 @@
     document.getElementById('cal-month').textContent =
       new Date(year, month).toLocaleDateString('fi-FI', { month: 'long', year: 'numeric' });
 
-    bookingsCache = await fetchBookings(year, month);
+    // Render calendar immediately with empty bookings
+    renderCalendarDays(year, month, bookingsCache);
 
+    // Then fetch bookings and re-render
+    fetchBookings(year, month).then(cache => {
+      bookingsCache = cache;
+      renderCalendarDays(year, month, bookingsCache);
+    });
+  }
+
+  function renderCalendarDays(year, month, cache) {
     const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const offset = firstDay === 0 ? 6 : firstDay - 1;
@@ -261,7 +276,7 @@
     for (let d = 1; d <= daysInMonth; d++) {
       const date = new Date(year, month, d);
       const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-      const booked = bookingsCache[dateStr] || [];
+      const booked = cache[dateStr] || [];
       const isPast = date < today;
       const isFull = booked.length >= MAX_PER_DAY;
       const isSelected = selectedDate === dateStr;
