@@ -11,6 +11,7 @@ exports.handler = async function(event) {
 
   const SUPABASE_URL = 'https://olrhdjfkqqeqsgklyqhf.supabase.co';
   const SUPABASE_KEY = process.env.SUPABASE_KEY;
+  const RESEND_KEY = process.env.RESEND_API_KEY;
 
   try {
     const { action, data } = JSON.parse(event.body);
@@ -35,7 +36,30 @@ exports.handler = async function(event) {
         },
         body: JSON.stringify(data)
       });
+
       if (res.ok) {
+        // Lähetä sähköposti-ilmoitus
+        await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${RESEND_KEY}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            from: 'onboarding@resend.dev',
+            to: 'hei@sivutiimi.fi',
+            subject: `Uusi ajanvaraus — ${data.paivamaara} klo ${data.kellonaika}`,
+            html: `
+              <h2>Uusi ajanvaraus!</h2>
+              <p><strong>Päivä:</strong> ${data.paivamaara} klo ${data.kellonaika}</p>
+              <p><strong>Nimi:</strong> ${data.nimi}</p>
+              <p><strong>Sähköposti:</strong> ${data.email}</p>
+              <p><strong>Puhelin:</strong> ${data.puhelin || '—'}</p>
+              <p><strong>Yritys:</strong> ${data.yritys || '—'}</p>
+            `
+          })
+        });
+
         return { statusCode: 200, headers, body: JSON.stringify({ ok: true }) };
       } else {
         const err = await res.text();
